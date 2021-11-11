@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors')
 require('dotenv').config()
 const { MongoClient } = require('mongodb');
+const { application } = require('express');
 
 const port = process.env.PORT || 5000;
 
@@ -17,7 +18,16 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run(){
     try{
         await client.connect();
-        console.log('database connected')
+        const database = client.db('Appartment-istria');
+        const allCollection = database.collection('allAppartments')
+
+        // find all
+        app.get('/services', async(req, res)=> {
+            const cursor = await allCollection.find({}).toArray();
+            console.log(cursor)
+            res.json(cursor) 
+        })
+
     }   
     finally{
         // await client.closes
