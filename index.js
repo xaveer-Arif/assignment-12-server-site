@@ -23,6 +23,9 @@ async function run(){
         const database = client.db('Appartment-istria');
         const allCollection = database.collection('allAppartments')
         const myOrder = database.collection('myOrder')
+        const usersCollection = database.collection('users')
+
+
         // find all
         app.get('/services', async(req, res)=> {
             const cursor = await allCollection.find({}).toArray();
@@ -51,8 +54,33 @@ async function run(){
             const result = await myOrder.deleteOne(cursor)
             console.log(result)
             res.json(result)
-            
+
         })
+        // save user data in database
+        app.post('/users', async(req, res) => {
+            const data = req.body;
+            const result = await usersCollection.insertOne(data)
+            console.log('command',result)
+            res.json(result)
+        })
+        // update  user to admin
+        app.put('/users/admin', async(req, res) => {
+            const user = req.body;
+            console.log('command', user)
+            // const filter = {email: user.email}
+            // const updateData = {$set: {role:'Admin'}}
+            // const result = await usersCollection.updateOne(filter, updateData)
+            res.send('error khaise')
+        })
+        // add data to allAppartment
+        app.post('/addproduct', async(req, res) => {
+            const data = req.body
+            console.log(data)
+            const result = await allCollection.insertOne(data)
+            console.log('aita my order command', result)
+            res.json(result)
+        })
+
 
     }   
     finally{
