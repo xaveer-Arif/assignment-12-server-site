@@ -67,10 +67,11 @@ async function run(){
         app.put('/users/admin', async(req, res) => {
             const user = req.body;
             console.log('command', user)
-            // const filter = {email: user.email}
-            // const updateData = {$set: {role:'Admin'}}
-            // const result = await usersCollection.updateOne(filter, updateData)
-            res.send('error khaise')
+            const filter = {email: user.email}
+            const updateData = {$set: {role:'Admin'}}
+            const result = await usersCollection.updateOne(filter, updateData)
+            console.log(result)
+            res.json(result)
         })
         // add data to allAppartment
         app.post('/addproduct', async(req, res) => {
