@@ -80,6 +80,32 @@ async function run(){
             console.log('aita my order command', result)
             res.json(result)
         })
+        // delete product in manage product
+        app.delete('/deleteProduct/:id', async(req, res) => {
+            const query = req.params.id;
+            const cursor = {_id: ObjectId(query)}
+            const result = await allCollection.deleteOne(cursor)
+            console.log(result)
+            res.json(result)
+
+        })
+        // get all order
+        app.get('/allorder', async(req,res) => {
+            // const data = req.query.email
+            // const email = {email:data}
+            const cursor = await myOrder.find({}).toArray();
+            res.json(cursor)
+             
+        })
+        // delete order in manage order
+        app.delete('/deleteOrder/:id', async(req, res) => {
+            const query = req.params.id;
+            const cursor = {_id: ObjectId(query)}
+            const result = await myOrder.deleteOne(cursor)
+            console.log(result)
+            res.json(result)
+
+        })
 
 
     }   
