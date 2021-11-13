@@ -112,6 +112,14 @@ async function run(){
             const result = await myOrder.updateOne(filter, updateData)
             res.json(result)
         })
+        // service for home
+        app.get('/homeService', async(req, res) => {
+            // const data = req.query.email
+            const query = {display:'home'}
+            console.log(query)
+            const cursor = await allCollection.find(query).toArray();
+            res.json(cursor)
+        })
 
 
     }   
