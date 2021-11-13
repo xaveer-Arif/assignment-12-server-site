@@ -120,6 +120,17 @@ async function run(){
             const cursor = await allCollection.find(query).toArray();
             res.json(cursor)
         })
+        // admin user
+        app.get('/userAdmin/:email', async(req,res) => {
+            const email = req.params.email;
+            const query = {email:email}
+            const user = await usersCollection.findOne(query)
+            let isAdmin = false;
+            if(user.role === 'Admin'){
+                isAdmin = true
+            }
+            res.json({admin:isAdmin})
+        })
 
 
     }   
