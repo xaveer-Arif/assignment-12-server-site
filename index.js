@@ -66,11 +66,9 @@ async function run(){
         // update  user to admin
         app.put('/users/admin', async(req, res) => {
             const user = req.body;
-            console.log('command', user)
             const filter = {email: user.email}
             const updateData = {$set: {role:'Admin'}}
             const result = await usersCollection.updateOne(filter, updateData)
-            console.log(result)
             res.json(result)
         })
         // add data to allAppartment
@@ -105,7 +103,14 @@ async function run(){
             const result = await myOrder.deleteOne(cursor)
             console.log(result)
             res.json(result)
-
+        })
+        // update status
+        app.put('/status', async(req, res) => {
+            const query = req.body.id
+            const filter = {_id: ObjectId(query)}
+            const updateData = {$set: {status:'Order Accepted'}}
+            const result = await myOrder.updateOne(filter, updateData)
+            res.json(result)
         })
 
 
