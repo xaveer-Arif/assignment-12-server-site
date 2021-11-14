@@ -128,12 +128,10 @@ async function run(){
             const user = await usersCollection.findOne(query)
             console.log(user)
             let isAdmin = false;
-            if(user.role === 'Admin'){
+            if(user?.role === 'Admin'){
                 isAdmin = true
             }
-            else{
-                isAdmin = false
-            }
+        
             res.json({admin:isAdmin})
         })
         // post review
