@@ -24,6 +24,7 @@ async function run(){
         const allCollection = database.collection('allAppartments')
         const myOrder = database.collection('myOrder')
         const usersCollection = database.collection('users')
+        const reviewCollection = database.collection('review')
 
 
         // find all
@@ -125,12 +126,31 @@ async function run(){
             const email = req.params.email;
             const query = {email:email}
             const user = await usersCollection.findOne(query)
+            console.log(user)
             let isAdmin = false;
             if(user.role === 'Admin'){
                 isAdmin = true
             }
+            else{
+                isAdmin = false
+            }
             res.json({admin:isAdmin})
         })
+        // post review
+        app.post('/review', async(req, res) => {
+            const data = req.body;
+            const result = await reviewCollection.insertOne(data)
+            console.log('command', result)
+            res.json(result)
+        })
+        app.get('/comments', async(req,res) => {
+            // const data = req.query.email
+            // const email = {email:data}
+            const cursor = await reviewCollection.find({}).toArray();
+            res.json(cursor)
+             
+        })
+
 
 
     }   
